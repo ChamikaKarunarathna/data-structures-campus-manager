@@ -3,6 +3,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        StudentLinkedList studentList = new StudentLinkedList();
         int choice;
 
         System.out.println("==================================================================");
@@ -39,16 +40,70 @@ public class Main {
 
             switch (choice) {
                 case 1:
-                    System.out.println("[Feature under development] - Add Student Record");
+                    System.out.print("Enter Student ID: ");
+                    String id = scanner.nextLine();
+                    if (studentList.isStudentExists(id)) {
+                        System.out.println("Error: Student with ID " + id + " already exists.");
+                        break;
+                    }
+                    System.out.print("Enter Name: ");
+                    String name = scanner.nextLine();
+                    System.out.print("Enter Programme: ");
+                    String prog = scanner.nextLine();
+                    
+                    double marks = -1;
+                    while (marks < 0 || marks > 100) {
+                        System.out.print("Enter Marks (0-100): ");
+                        if (scanner.hasNextDouble()) {
+                            marks = scanner.nextDouble();
+                            if (marks < 0 || marks > 100) {
+                                System.out.println("Invalid marks. Must be between 0 and 100.");
+                            }
+                        } else {
+                            System.out.println("Invalid input. Please enter a valid number.");
+                            scanner.next();
+                        }
+                    }
+                    scanner.nextLine(); // Consume newline
+                    
+                    studentList.addStudent(new Student(id, name, prog, marks));
                     break;
                 case 2:
-                    System.out.println("[Feature under development] - Update Student Record");
+                    System.out.print("Enter Student ID to update: ");
+                    String updateId = scanner.nextLine();
+                    if (!studentList.isStudentExists(updateId)) {
+                        System.out.println("Error: Student with ID " + updateId + " not found.");
+                        break;
+                    }
+                    System.out.print("Enter New Name: ");
+                    String newName = scanner.nextLine();
+                    System.out.print("Enter New Programme: ");
+                    String newProg = scanner.nextLine();
+                    
+                    double newMarks = -1;
+                    while (newMarks < 0 || newMarks > 100) {
+                        System.out.print("Enter New Marks (0-100): ");
+                        if (scanner.hasNextDouble()) {
+                            newMarks = scanner.nextDouble();
+                            if (newMarks < 0 || newMarks > 100) {
+                                System.out.println("Invalid marks. Must be between 0 and 100.");
+                            }
+                        } else {
+                            System.out.println("Invalid input. Please enter a valid number.");
+                            scanner.next();
+                        }
+                    }
+                    scanner.nextLine();
+                    
+                    studentList.updateStudent(updateId, newName, newProg, newMarks);
                     break;
                 case 3:
-                    System.out.println("[Feature under development] - Delete Student Record");
+                    System.out.print("Enter Student ID to delete: ");
+                    String deleteId = scanner.nextLine();
+                    studentList.deleteStudent(deleteId);
                     break;
                 case 4:
-                    System.out.println("[Feature under development] - Display All Records using Linked List");
+                    studentList.displayAllStudents();
                     break;
                 case 5:
                     System.out.println("[Feature under development] - Add Service Request to Queue");

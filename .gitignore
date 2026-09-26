@@ -1,0 +1,17 @@
+*.class
+
+*.log
+
+*.jar
+*.war
+*.zip
+*.tar.gz
+
+hs_err_pid*
+
+.idea/
+.vscode/
+*.iml
+.project
+.classpath
+.settings/
