@@ -4,6 +4,8 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         StudentLinkedList studentList = new StudentLinkedList();
+        ServiceRequestQueue requestQueue = new ServiceRequestQueue();
+        RecentActionStack recentActions = new RecentActionStack();
         int choice;
 
         System.out.println("==================================================================");
@@ -67,6 +69,7 @@ public class Main {
                     scanner.nextLine(); // Consume newline
                     
                     studentList.addStudent(new Student(id, name, prog, marks));
+                    recentActions.push("Added new student record: " + id);
                     break;
                 case 2:
                     System.out.print("Enter Student ID to update: ");
@@ -95,24 +98,48 @@ public class Main {
                     }
                     scanner.nextLine();
                     
-                    studentList.updateStudent(updateId, newName, newProg, newMarks);
+                    boolean updated = studentList.updateStudent(updateId, newName, newProg, newMarks);
+                    if (updated) {
+                        recentActions.push("Updated student record: " + updateId);
+                    }
                     break;
                 case 3:
                     System.out.print("Enter Student ID to delete: ");
                     String deleteId = scanner.nextLine();
-                    studentList.deleteStudent(deleteId);
+                    boolean deleted = studentList.deleteStudent(deleteId);
+                    if (deleted) {
+                        recentActions.push("Deleted student record: " + deleteId);
+                    }
                     break;
                 case 4:
                     studentList.displayAllStudents();
                     break;
                 case 5:
-                    System.out.println("[Feature under development] - Add Service Request to Queue");
+                    System.out.print("Enter Student ID for service request: ");
+                    String serviceId = scanner.nextLine();
+                    if (!studentList.isStudentExists(serviceId)) {
+                        System.out.println("Error: Student with ID " + serviceId + " not found.");
+                        break;
+                    }
+
+                    System.out.print("Enter request type (e.g., Certificate, Enrollment, Inquiry): ");
+                    String requestType = scanner.nextLine();
+                    String timestamp = java.time.LocalDateTime.now().toString();
+
+                    ServiceRequest request = new ServiceRequest(serviceId, requestType, timestamp);
+                    requestQueue.enqueue(request);
+                    recentActions.push("Queued request for Student ID: " + serviceId + " | " + requestType);
+                    System.out.println("Service request added to queue successfully.");
                     break;
                 case 6:
-                    System.out.println("[Feature under development] - Process Next Service Request");
+                    ServiceRequest nextRequest = requestQueue.dequeue();
+                    if (nextRequest != null) {
+                        recentActions.push("Processed request: " + nextRequest.getStudentId() + " | " + nextRequest.getRequestType());
+                        System.out.println("Processing next request: " + nextRequest.toString());
+                    }
                     break;
                 case 7:
-                    System.out.println("[Feature under development] - Display Recent Actions using Stack");
+                    recentActions.displayActions();
                     break;
                 case 8:
                     System.out.println("[Feature under development] - Display Students using BST/AVL");
