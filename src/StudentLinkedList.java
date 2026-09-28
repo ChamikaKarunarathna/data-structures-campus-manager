@@ -1,8 +1,10 @@
 public class StudentLinkedList {
     private StudentNode head;
+    private final StudentSearchIndex searchIndex;
 
     public StudentLinkedList() {
         this.head = null;
+        this.searchIndex = new StudentSearchIndex();
     }
 
     public boolean isStudentExists(String studentId) {
@@ -28,6 +30,7 @@ public class StudentLinkedList {
             }
             current.next = newNode;
         }
+        searchIndex.add(student);
         System.out.println("Student added successfully.");
     }
 
@@ -56,6 +59,7 @@ public class StudentLinkedList {
         }
 
         if (head.data.getStudentId().equalsIgnoreCase(studentId)) {
+            searchIndex.remove(studentId);
             head = head.next;
             System.out.println("Student record deleted successfully.");
             return true;
@@ -67,6 +71,7 @@ public class StudentLinkedList {
         }
 
         if (current.next != null) {
+            searchIndex.remove(studentId);
             current.next = current.next.next;
             System.out.println("Student record deleted successfully.");
             return true;
@@ -90,5 +95,13 @@ public class StudentLinkedList {
             current = current.next;
         }
         System.out.println("-----------------------");
+    }
+
+    public void displayStudentsUsingTree() {
+        searchIndex.displayInOrder();
+    }
+
+    public Student findStudentUsingHash(String studentId) {
+        return searchIndex.find(studentId);
     }
 }
