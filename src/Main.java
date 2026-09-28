@@ -69,6 +69,7 @@ public class Main {
                     scanner.nextLine(); // Consume newline
                     
                     studentList.addStudent(new Student(id, name, prog, marks));
+                    recentActions.push("Added new student record: " + id);
                     break;
                 case 2:
                     System.out.print("Enter Student ID to update: ");
@@ -97,12 +98,18 @@ public class Main {
                     }
                     scanner.nextLine();
                     
-                    studentList.updateStudent(updateId, newName, newProg, newMarks);
+                    boolean updated = studentList.updateStudent(updateId, newName, newProg, newMarks);
+                    if (updated) {
+                        recentActions.push("Updated student record: " + updateId);
+                    }
                     break;
                 case 3:
                     System.out.print("Enter Student ID to delete: ");
                     String deleteId = scanner.nextLine();
-                    studentList.deleteStudent(deleteId);
+                    boolean deleted = studentList.deleteStudent(deleteId);
+                    if (deleted) {
+                        recentActions.push("Deleted student record: " + deleteId);
+                    }
                     break;
                 case 4:
                     studentList.displayAllStudents();
