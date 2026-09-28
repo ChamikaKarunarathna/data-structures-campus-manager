@@ -142,10 +142,17 @@ public class Main {
                     recentActions.displayActions();
                     break;
                 case 8:
-                    System.out.println("[Feature under development] - Display Students using BST/AVL");
+                    studentList.displayStudentsUsingTree();
                     break;
                 case 9:
-                    System.out.println("[Feature under development] - Search Student using Hashing");
+                    System.out.print("Enter Student ID to search: ");
+                    String searchId = scanner.nextLine();
+                    Student foundStudent = studentList.findStudentUsingHash(searchId);
+                    if (foundStudent == null) {
+                        System.out.println("Student with ID " + searchId + " not found.");
+                    } else {
+                        System.out.println("Student found: " + foundStudent);
+                    }
                     break;
                 case 10:
                     System.out.println("[Feature under development] - Add Campus Location");
