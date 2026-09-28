@@ -6,6 +6,7 @@ public class Main {
         StudentLinkedList studentList = new StudentLinkedList();
         ServiceRequestQueue requestQueue = new ServiceRequestQueue();
         RecentActionStack recentActions = new RecentActionStack();
+        CampusGraph campusGraph = new CampusGraph();
         int choice;
 
         System.out.println("==================================================================");
@@ -28,7 +29,7 @@ public class Main {
             System.out.println("12. Add Campus Connection/Road");
             System.out.println("13. Remove Campus Connection/Road");
             System.out.println("14. Display Campus Connections");
-            System.out.println("15. Traverse Campus Locations using BFS or DFS");
+            System.out.println("15. Traverse Campus Locations using BFS");
             System.out.println("16. Exit");
             System.out.print("Enter your choice (1-16): ");
 
@@ -155,22 +156,33 @@ public class Main {
                     }
                     break;
                 case 10:
-                    System.out.println("[Feature under development] - Add Campus Location");
+                    System.out.print("Enter campus location: ");
+                    campusGraph.addLocation(scanner.nextLine());
                     break;
                 case 11:
-                    System.out.println("[Feature under development] - Remove Campus Location");
+                    System.out.print("Enter campus location to remove: ");
+                    campusGraph.removeLocation(scanner.nextLine());
                     break;
                 case 12:
-                    System.out.println("[Feature under development] - Add Campus Connection/Road");
+                    System.out.print("Enter first location: ");
+                    String firstLocation = scanner.nextLine();
+                    System.out.print("Enter second location: ");
+                    String secondLocation = scanner.nextLine();
+                    campusGraph.addConnection(firstLocation, secondLocation);
                     break;
                 case 13:
-                    System.out.println("[Feature under development] - Remove Campus Connection/Road");
+                    System.out.print("Enter first location: ");
+                    String firstLocationToRemove = scanner.nextLine();
+                    System.out.print("Enter second location: ");
+                    String secondLocationToRemove = scanner.nextLine();
+                    campusGraph.removeConnection(firstLocationToRemove, secondLocationToRemove);
                     break;
                 case 14:
-                    System.out.println("[Feature under development] - Display Campus Connections");
+                    campusGraph.displayConnections();
                     break;
                 case 15:
-                    System.out.println("[Feature under development] - Traverse Campus Locations using BFS or DFS");
+                    System.out.print("Enter starting location: ");
+                    campusGraph.bfsTraversal(scanner.nextLine());
                     break;
                 case 16:
                     System.out.println("Exiting the system. Goodbye!");
